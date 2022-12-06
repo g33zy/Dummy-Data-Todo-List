@@ -16,7 +16,10 @@
 }]
 
       
-      
+const reset = () => {
+  const clear = document.getElementById("todo-list")
+  clear.textContent = ""
+}
 
     const fetchTodos = () => {
         fetch('https://jsonplaceholder.typicode.com/todos')
@@ -38,6 +41,7 @@
     }
     
     const populateTodos = () => {
+      reset()
       for (let i = 0; i < arrayOfTodos.length; i++){
         const ol = document.getElementById("todo-list")
         const li = document.createElement("li")
@@ -63,12 +67,12 @@
 
            
     }
-   
 
-    const filterToDos = () => {
+    const filterToDos = (uData, completed) => {
       reset()
-      const uData = document.getElementById("userId").value
-      const filterArray = arrayOfTodos.filter(todos => todos.userId == uData)
+     console.log(uData, completed)
+     console.log(arrayOfTodos)
+      const filterArray = arrayOfTodos.filter(todos => todos.userId == uData && todos.completed === completed)
       console.log(filterArray)
       for (let i = 0; i < filterArray.length; i++){
         const ol = document.getElementById("todo-list")
@@ -80,19 +84,37 @@
 
     }
 
-
     const form = document.querySelector("form")
-      form.addEventListener("submit", e => {
+    form.addEventListener("submit", e => {
           e.preventDefault();
-      
-      ol.innerHTML = ""
-      })
+          const userId = parseInt(document.querySelector("#userId").value)
+          console.log(userId)
+          const completed = document.querySelector("#completed").checked
+          console.log(completed)
+          filterToDos (userId, completed)
+    })
 
 
-      const reset = () => {
-        const clear = document.getElementById("todo-list")
-        clear.textContent = ""
+   
+
+    const completedArr = () => {
+      reset()
+      const completed = document.getElementById("userId").value
+      const completedArray = arrayOfTodos.filter(todos => todos.userId == completed)
+      console.log(completedArray)
+      for (let i = 0; i < completedArray.length; i++){
+        const ol = document.getElementById("todo-list")
+        const li = document.createElement("li")
+        const text = document.createTextNode(completedArray[i].completed)
+        li.appendChild(text)
+        ol.appendChild(li)
       }
+    }
+
+    
+
+
+      
 
 //  document.getElementById("todo-list")
     
